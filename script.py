@@ -1,3 +1,5 @@
+# WARNING: For EDUCATIONAL PURPOSES ONLY! 
+
 from selenium import webdriver
 from selenium.webdriver.common import keys
 import os
@@ -33,7 +35,10 @@ def download_image(basename, url):
         dest_folder = os.path.join(DEST_FOLDER, str(basename))
         if not os.path.exists(dest_folder):
             os.mkdir(dest_folder)
+            
+        # To avoid blocks or use user agent, changes needs to be done here    
         response = pool.urlopen(method="GET", url=url)
+        # Feel free to have your own hash
         md5hash.update(url.encode())
         with open(os.path.join(dest_folder, md5hash.hexdigest() + ".jpg"), "wb") as fp:
             fp.write(response.data)
