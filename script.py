@@ -8,10 +8,20 @@ import argparse
 
 # Limit count here
 LIMIT_COUNT = 50
+
+# Absolute path of your destination folder
 DEST_FOLDER = "D:\datacramp\images2"
+
+# Absolute path of chromedriver
 CHROME_DRIVER_PATH = "main/drivers/chromedriver.exe"
+
+# Dont change this
 GOOGLE_IMAGES = "https://www.google.com/imghp?hl=en"
+
+# The site from which the images should not be queried
 EXCLUDE_SITE = "http://www.indianodonata.org"
+
+#List of all species with count less than 30
 SPECIES_LIST = "species.txt"
 
 
@@ -46,11 +56,12 @@ def selenium_for_species(species, count):
     body.send_keys(keys.Keys.PAGE_DOWN)
     body.send_keys(keys.Keys.PAGE_DOWN)
     body.send_keys(keys.Keys.PAGE_DOWN)
-    # just in case wait
+    # Just in case load
     time.sleep(2)
     all_images = browser.find_elements_by_css_selector("a[jsaction='click:J9iaEb;']")
     url_basket = []
     for element in all_images[:min(count, len(all_images))]:
+        # This is necessary to avoid SSL handshake error
         time.sleep(1)
         element.click()
         required_url = element.get_attribute("href")
@@ -58,6 +69,7 @@ def selenium_for_species(species, count):
 
     for url in url_basket:
         browser.get(url)
+        # Just in case load
         time.sleep(1)
         image_element = browser.find_element_by_xpath("//*[@id='irc_cc']/div/div[2]/div[1]/div[2]/div[1]/a/div/img")
         big_image_url = image_element.get_attribute("src")
